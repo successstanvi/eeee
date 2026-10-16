@@ -134,7 +134,7 @@ async function fetchWePlay(uid) {
     await page
       .waitForFunction(() => {
         const nickname = document
-          .querySelector(".nickname")
+          .querySelector(".name")
           ?.textContent?.trim();
 
         const value = document
@@ -147,7 +147,7 @@ async function fetchWePlay(uid) {
 
     const result = await page.evaluate(() => {
       const nickname =
-        document.querySelector(".nickname")?.textContent?.trim() || "";
+        document.querySelector(".name")?.textContent?.trim() || "";
 
       const raw =
         document.querySelector(".value")?.textContent?.trim() || "";
