@@ -132,17 +132,20 @@ async function fetchWePlay(uid) {
     }
 
     await page
-      .waitForFunction(() => {
-        const nickname = document
-          .querySelector(".nickname")
-          ?.textContent?.trim();
+      .waitForFunction(
+        () => {
+          const nickname = document
+            .querySelector(".nickname")
+            ?.textContent?.trim();
 
-        const value = document
-          .querySelector(".value")
-          ?.textContent?.trim();
+          const value = document
+            .querySelector(".value")
+            ?.textContent?.trim();
 
-        return Boolean(nickname && value);
-      }, { timeout: RESULT_TIMEOUT_MS })
+          return Boolean(nickname && value);
+        },
+        { timeout: RESULT_TIMEOUT_MS }
+      )
       .catch(() => {});
 
     const result = await page.evaluate(() => {
@@ -170,9 +173,7 @@ async function fetchWePlay(uid) {
           )
         );
 
-        avatar = image
-          ? image.currentSrc || image.src
-          : null;
+        avatar = image ? image.currentSrc || image.src : null;
       }
 
       return {
@@ -260,7 +261,9 @@ module.exports = async (req, res) => {
     return sendJson(res, 200, {
       success: true,
       uid,
-      ...data,
+      name: data.nickname,
+      charm: data.charm,
+      profile_pic_url: data.profile_pic_url,
       cached: false,
       took_ms: Date.now() - started,
     });
